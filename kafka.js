@@ -19,7 +19,7 @@ module.exports = function(RED) {
                 clusterZookeeper = this.server.zkquorum,
                 topics = String(config.topics),
                 zkOptions = {key:this.server.key, cert:this.server.cert, ca:this.server.ca},
-                client = new kafka.Client(clusterZookeeper, zkOptions),
+                client = new kafka.Client(clusterZookeeper, zkOptions);
             try {
                 this.on("input", function(msg) {
                     var payloads = [];
