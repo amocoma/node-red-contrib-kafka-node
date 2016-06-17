@@ -9,6 +9,7 @@ module.exports = function(RED) {
      - zkquorum(example: zkquorum = “[host]:2181")
      */
     function kafkaNode(config) {
+        console.log('here you go');
         RED.nodes.createNode(this,config);
         var topic = config.topic;
         var clusterZookeeper = config.zkquorum;
