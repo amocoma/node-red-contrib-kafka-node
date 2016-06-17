@@ -52,73 +52,78 @@ module.exports = function(RED) {
     RED.nodes.registerType("kafka",kafkaNode);
 
 
-    /*
-     *   Kafka Consumer
-     *   Parameters:
-     - topics
-     - groupId
-     - zkquorum(example: zkquorum = “[host]:2181")
-     */
-    function kafkaInNode(config) {
+    function kafkaISubscriberNode(config) {
         RED.nodes.createNode(this,config);
-
         var node = this;
+        // Retrieve the config node
+        this.server = RED.nodes.getNode(config.server);
 
-        var kafka = require('kafka-node');
-        var HighLevelConsumer = kafka.HighLevelConsumer;
-        var Client = kafka.Client;
-        var topics = String(config.topics);
-        var clusterZookeeper = config.zkquorum;
-        var groupId = config.groupId;
-        var client = new Client(clusterZookeeper);
+        if (this.server) {
+            var hlConsumer = kafka.HighLevelConsumer,
+                topics = String(config.topics),
+                clusterZookeeper = server.zkquorum,
+                zkOptions = {key:config.key, cert:config.cert, ca:config.ca}
+                client = new (require('kafka-node')).Client(clusterZookeeper, zkOptions),
+                kafkaOptions = {
+                    groupId: config.groupId,,
+                    autoCommit: config.autoCommit,
+                    autoCommitMsgCount: 10,
+                };
+                topicJSONArry = [];
+            if(topics!=null && topics.trim().length > 0){
+                if (topics.indexOf(",") != -1){
+                    topics.split(',').forEach(function(_topic){topicJSONArry.push({topic: _topic.trim()});});
+                    topics = topicJSONArry;
+                }else{
+                    topics = [{topic:topics.trim()}];
+                }
+                try {
+                    var consumer = new hlConsumer(client, topics, options);
+                    this.log("Consumer created...");
 
-        var topicJSONArry = [];
-
-        // check if multiple topics
-        if (topics.indexOf(",") > -1){
-            var topicArry = topics.split(',');
-            console.log(topicArry);
-            console.log(topicArry.length);
-
-
-            for (i = 0; i < topicArry.length; i++) {
-                console.log(topicArry[i]);
-                topicJSONArry.push({topic: topicArry[i]});
+                    consumer.on('message', function (message) {
+                        console.log(message);
+                        node.log(message);
+                        var msg = {payload: message};
+                        node.send(msg);
+                    });            
+                    consumer.on('error', function (err) {
+                       console.error(err);
+                    });                
+            }else{
+                console.error('No topics configures');
             }
-            topics = topicJSONArry;
-        }
-        else {
-            topics = [{topic:topics}];
-        }
 
-        var options = {
-            groupId: groupId,
-            autoCommit: config.autoCommit,
-            autoCommitMsgCount: 10
-        };
-
-
-        try {
-            var consumer = new HighLevelConsumer(client, topics, options);
-            this.log("Consumer created...");
-
-            consumer.on('message', function (message) {
-                console.log(message);
-                node.log(message);
-                var msg = {payload: message};
-                node.send(msg);
-            });
-
-            
-            consumer.on('error', function (err) {
-               console.error(err);
-            });
         }
         catch(e){
             node.error(e);
             return;
         }
+
+
+
+        } else {
+            node.log('No config node configured');
+            // 
+        }
     }
 
-    RED.nodes.registerType("kafka in", kafkaInNode);
+
+    RED.nodes.registerType("kafka-subscriber",kafkaISubscriberNode);
+
+
+
+
+
+
+
+    function KafkaServerNode(n) {
+        RED.nodes.createNode(this,n);
+        this.host = n.host;
+        this.port = n.port;
+    }
+    RED.nodes.registerType("kafka-server",KafkaServerNode);
+}
+
+
 };
