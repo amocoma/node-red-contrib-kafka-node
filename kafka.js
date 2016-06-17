@@ -29,7 +29,7 @@ module.exports = function(RED) {
             }catch(e) {
                 node.error(e);
             }
-            var producer = new HighLevelProducer(client);
+            var producer = new hlProducer(client);
         }else{
             node.log('No config node configured');
         }
