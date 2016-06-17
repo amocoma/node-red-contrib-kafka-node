@@ -89,20 +89,16 @@ module.exports = function(RED) {
                     });            
                     consumer.on('error', function (err) {
                        console.error(err);
-                    });                
+                    });
+                catch(e){
+                    node.error(e);
+                    return;
+                } 
             }else{
                 console.error('No topics configures');
             }
 
-        }
-        catch(e){
-            node.error(e);
-            return;
-        }
-
-
-
-        } else {
+        }else{
             node.log('No config node configured');
             // 
         }
