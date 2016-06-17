@@ -13,6 +13,7 @@ module.exports = function(RED) {
         var node = this;
         // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
+        node.log(JSON.stringify(this.server));
         if (this.server) {
             var kafka = require('kafka-node'),
                 hlProducer = kafka.HighLevelProducer,
