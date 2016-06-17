@@ -26,7 +26,7 @@
 <script type="text/x-red" data-template-name="kafka">
     <div class="form-row">
         <label for="node-input-server"><i class="icon-tag"></i>Server</label>
-        <select type="text" id="node-input-server" placeholder="Kafka Server">
+        <select type="text" id="node-input-server" placeholder="Kafka Server"/>
     </div>
 
     <div class="form-row">
@@ -117,12 +117,16 @@ Topic(s) = "topic1, topic2, topic3"
             ca: {value:null,required:false},
         },
         label: function() {
-            return this.host+":"+this.port;
+            return name;
         }
     });
 </script>
 
 <script type="text/x-red" data-template-name="kafka-server">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
     <div class="form-row">
         <label for="node-input-zkquorum"><i class="icon-tag"></i>ZK Quorum</label>
         <input type="text" id="node-input-zkquorum" placeholder="ZK Quorum">
