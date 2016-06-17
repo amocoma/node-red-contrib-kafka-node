@@ -90,7 +90,7 @@ module.exports = function(RED) {
                     consumer.on('error', function (err) {
                        console.error(err);
                     });
-                catch(e){
+                }catch(e){
                     node.error(e);
                     return;
                 } 
