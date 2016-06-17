@@ -1,6 +1,6 @@
 <script type="text/javascript">
 
-    RED.nodes.registerType('kafka',{
+    RED.nodes.registerType('kafka-prod',{
         category: 'function',
         color: '#FFFFFF',
         defaults: {
@@ -13,12 +13,12 @@
         icon: 'kafka.png',
         align: "right",
         label: function() {
-            return this.name||"kafka";
+            return this.name||"kafka-prod";
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="kafka">
+<script type="text/x-red" data-template-name="kafka-prod">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i>Name</label>
         <select type="text" id="node-input-name" placeholder="Name"/>
@@ -36,15 +36,15 @@
 
 </script>
 
-<script type="text/x-red" data-help-name="kafka">
+<script type="text/x-red" data-help-name="kafka-prod">
     <p>A simple Kafka producer node.</p>
     <p><b>ZooKeeper Quorum</b>  <i>The ZooKeeper quorum of Kafka cluster.</i></p>
     <p><b>Topic(s)</b> <i>The topic(s) of message to produce.</i></p>
     <pre>
-Example:
-Topic(s) = "topic"
-OR
-Topic(s) = "topic1, topic2, topic3"
+        Example:
+        Topic(s) = "topic"
+        OR
+        Topic(s) = "topic1, topic2, topic3"
     </pre>
 </script>
 
@@ -101,10 +101,10 @@ Topic(s) = "topic1, topic2, topic3"
     <p><b>Topic(s)</b> <i>The topic(s) of message to produce.</i></p>
     <p><b>Auto Commit</b> <i>Messages are committed automatically.</i></p>
     <pre>
-Example:
-Topic(s) = "topic"
-OR
-Topic(s) = "topic1, topic2, topic3"
+        Example:
+        Topic(s) = "topic"
+        OR
+        Topic(s) = "topic1, topic2, topic3"
     </pre>
 </script>
 
