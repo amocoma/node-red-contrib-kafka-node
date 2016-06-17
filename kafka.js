@@ -63,7 +63,7 @@ module.exports = function(RED) {
             var hlConsumer = kafka.HighLevelConsumer,
                 topics = String(config.topics),
                 clusterZookeeper = server.zkquorum,
-                zkOptions = {key:config.key, cert:config.cert, ca:config.ca},
+                zkOptions = {key:server.key, cert:server.cert, ca:server.ca},
                 client = new (require('kafka-node')).Client(clusterZookeeper, zkOptions),
                 kafkaOptions = {
                     groupId: config.groupId,
@@ -106,19 +106,16 @@ module.exports = function(RED) {
     }
 
 
-    RED.nodes.registerType("kafka-subscriber",kafkaSubscriberNode);
+    RED.nodes.registerType("kafka-sub",kafkaSubscriberNode);
 
-
-
-
-    function KafkaServerNode(n) {
+    function kafkaServerConfigNode(n) {
         RED.nodes.createNode(this,n);
+        this.name = n.name;
         this.zkquorum = n.zkquorum;
         this.key = n.key;
         this.cert = n.cert;
         this.ca = n.ca;
     }
-    RED.nodes.registerType("kafka-server",KafkaServerNode);
-
+    RED.nodes.registerType("kafka-server",kafkaServerConfigNode);
 
 };
