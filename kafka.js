@@ -62,10 +62,10 @@ module.exports = function(RED) {
             var hlConsumer = kafka.HighLevelConsumer,
                 topics = String(config.topics),
                 clusterZookeeper = server.zkquorum,
-                zkOptions = {key:config.key, cert:config.cert, ca:config.ca}
+                zkOptions = {key:config.key, cert:config.cert, ca:config.ca},
                 client = new (require('kafka-node')).Client(clusterZookeeper, zkOptions),
                 kafkaOptions = {
-                    groupId: config.groupId,,
+                    groupId: config.groupId,
                     autoCommit: config.autoCommit,
                     autoCommitMsgCount: 10,
                 };
