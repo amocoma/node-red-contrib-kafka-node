@@ -110,6 +110,7 @@ Topic(s) = "topic1, topic2, topic3"
     RED.nodes.registerType('kafka-server',{
         category: 'config',
         defaults: {
+            name: {value:null,required:true},
             zkquorum: {value:"http://localhost:8080",required:true},
             key: {value:null,required:false},
             cert: {value:null,required:false},
@@ -128,15 +129,15 @@ Topic(s) = "topic1, topic2, topic3"
     </div>
     <div class="form-row">
         <label for="node-config-input-key"><i class="icon-bookmark"></i>Client Certificate Key</label>
-        <input type="text" id="node-config-input-key">
+        <input type="text" id="node-config-input-key" placeholder="Key">
     </div>
     <div class="form-row">
         <label for="node-config-input-cert"><i class="icon-bookmark"></i>Client Certificate</label>
-        <input type="text" id="node-config-input-cert">
+        <input type="text" id="node-config-input-cert" placeholder="Cert">
     </div>
     <div class="form-row">
         <label for="node-config-input-ca"><i class="icon-bookmark"></i>Server Certificate </label>
-        <input type="text" id="node-config-input-ca">
+        <input type="text" id="node-config-input-ca" placeholder="ca">
     </div>
 </script>
 
