@@ -52,7 +52,7 @@ module.exports = function(RED) {
     RED.nodes.registerType("kafka",kafkaNode);
 
 
-    function kafkaISubscriberNode(config) {
+    function kafkaSubscriberNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
         // Retrieve the config node
@@ -109,21 +109,19 @@ module.exports = function(RED) {
     }
 
 
-    RED.nodes.registerType("kafka-subscriber",kafkaISubscriberNode);
-
-
-
+    RED.nodes.registerType("kafka-subscriber",kafkaSubscriberNode);
 
 
 
 
     function KafkaServerNode(n) {
         RED.nodes.createNode(this,n);
-        this.host = n.host;
-        this.port = n.port;
+        this.zkquorum = n.zkquorum;
+        this.key = n.key;
+        this.cert = n.cert;
+        this.ca = n.ca;
     }
     RED.nodes.registerType("kafka-server",KafkaServerNode);
-}
 
 
 };
