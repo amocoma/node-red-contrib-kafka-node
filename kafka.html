@@ -3,12 +3,6 @@
     RED.nodes.registerType('kafka',{
         category: 'function',
         color: '#FFFFFF',
-        /**
-        defaults: {
-            zkquorum:{value:"", required: true},
-            topics: {value:"", required: true}
-        },
-        **/
         defaults: {
             server: {value:'', type:'kafka-server'},
             topics: {value:"", required: true}
@@ -50,11 +44,10 @@ Topic(s) = "topic1, topic2, topic3"
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('kafka-subscriber',{
+    RED.nodes.registerType('kafka-sub',{
         category: 'function',
         color: '#FFFFFF',
         defaults: {
-            // zkquorum:{value:"", required: true},
             server: {value:null, type:'kafka-server'},
             topics: {value:null, required: true},
             groupId:{value:null, required: true},
@@ -69,10 +62,10 @@ Topic(s) = "topic1, topic2, topic3"
     });
 </script>
 
-<script type="text/x-red" data-template-name="kafka-subscriber">
+<script type="text/x-red" data-template-name="kafka-sub">
     <div class="form-row">
         <label for="node-input-server"><i class="icon-tag"></i>Server</label>
-        <select type="text" id="node-input-server" placeholder="Kafka Server">
+        <select type="text" id="node-input-server" placeholder="Kafka Server"/>
     </div>
 
     <div class="form-row">
@@ -91,7 +84,7 @@ Topic(s) = "topic1, topic2, topic3"
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="kafka-subscriber">
+<script type="text/x-red" data-help-name="kafka-sub">
     <p>A simple Kafka consumer node.</p>
     <p><b>ZooKeeper Quorum</b>  <i>The ZooKeeper quorum of Kafka cluster.</i></p>
     <p><b>GroupId</b> <i>The groupId of consumers.</i></p>
@@ -125,11 +118,11 @@ Topic(s) = "topic1, topic2, topic3"
 <script type="text/x-red" data-template-name="kafka-server">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i>Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-config-input-name" placeholder="Name">
     </div>
     <div class="form-row">
         <label for="node-input-zkquorum"><i class="icon-tag"></i>ZK Quorum</label>
-        <input type="text" id="node-input-zkquorum" placeholder="ZK Quorum">
+        <input type="text" id="node-config-input-zkquorum" placeholder="ZK Quorum">
     </div>
     <div class="form-row">
         <label for="node-config-input-key"><i class="icon-bookmark"></i>Client Certificate Key</label>
