@@ -15,8 +15,9 @@ module.exports = function(RED) {
                 producer = new Kafka.Producer(zkOptions);
             try {
                 this.on("input", function(msg) {
-
+                    console.log('XXXXX : ' + 'input');
                     return producer.init().then(function(){
+                      console.log('XXXXX : ' + 'PRODUCER INITIALIZED');
                       return producer.send({
                           topic: 'test',
                           partition: 0,
@@ -26,6 +27,7 @@ module.exports = function(RED) {
                       });
                     })
                     .then(function (result) {
+                        console.log('XXXXX : ' + 'NO INIT OF PRODUCER');
                       node.log(' xxxxxx result : ' + JSON.stringify(result));
                     });
                 });
