@@ -32,7 +32,7 @@ module.exports = function(RED) {
             }catch(e) {
                 node.error(e);
             }
-            var producer = new hlProducer(client);
+            var producer = new producer(client);
         }else{
             node.log('No config node configured');
         }
