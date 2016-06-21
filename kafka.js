@@ -32,7 +32,7 @@ module.exports = function(RED) {
             }catch(e) {
                 node.error(e);
             }
-            var producer = new producer(client);
+            var producer = new producer(zkOptions);
         }else{
             node.log('No config node configured');
         }
