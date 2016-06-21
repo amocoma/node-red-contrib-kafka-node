@@ -3,6 +3,7 @@ var Kafka = require('no-kafka');
 module.exports = function(RED) {
 
     function kafkaProducerNode(config) {
+        /**
         RED.nodes.createNode(this,config);
         var node = this;
         // Retrieve the config node
@@ -10,7 +11,7 @@ module.exports = function(RED) {
         node.log(JSON.stringify(this.server));
         if (this.server) {
             var clusterZookeeper = this.server.zkquorum,
-                topics = String(config.topics), /** not used right now **/
+                topics = String(config.topics), // not used right now!
                 sslOptions = {key:this.server.key, cert:this.server.cert, ca:this.server.ca},
                 zkOptions = {connectionString:'kafka+ssl://ec2-52-51-56-194.eu-west-1.compute.amazonaws.com:9096,kafka+ssl://ec2-52-50-127-83.eu-west-1.compute.amazonaws.com:9096', ssl: sslOptions},
                 producer = new Kafka.Producer();
@@ -37,6 +38,7 @@ module.exports = function(RED) {
         }else{
             node.log('No config node configured');
         }
+        **/
     }
 
     RED.nodes.registerType("kafka-prod",kafkaProducerNode);
