@@ -5,7 +5,6 @@ module.exports = function(RED) {
         var node = this;
         var Kafka = require('no-kafka');
         // Retrieve the config node
-        /**
         this.server = RED.nodes.getNode(config.server);
         node.log(JSON.stringify(this.server));
         if (this.server) {
@@ -37,7 +36,6 @@ module.exports = function(RED) {
         }else{
             node.log('No config node configured');
         }
-        **/
     }
 
     RED.nodes.registerType("kafka-prod",kafkaProducerNode);
