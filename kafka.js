@@ -1,9 +1,10 @@
-var Kafka = require('no-kafka');
+
 
 module.exports = function(RED) {
 
     function kafkaProducerNode(config) {
         /**
+        var Kafka = require('no-kafka');
         RED.nodes.createNode(this,config);
         var node = this;
         // Retrieve the config node
