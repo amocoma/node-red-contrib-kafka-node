@@ -8,7 +8,7 @@ module.exports = function(RED) {
         this.server = RED.nodes.getNode(config.server);
         
         var gCtx = node.context().global;
-        node.log(JSON.stringify(gCtx.get('process')));
+        node.log(JSON.stringify(gCtx.get('process').env));
         if (this.server) {
             var clusterZookeeper = this.server.zkquorum,
                 topics = String(config.topics), // not used right now!
