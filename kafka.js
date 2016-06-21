@@ -7,9 +7,8 @@ module.exports = function(RED) {
         // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
         
-        var gCtx = this.context().global;
-        var kafkaConfig = gCtx.get('kafka');
-        node.log(JSON.stringify($(KAFKA_TRUSTED_CERT)));
+        var gCtx = this.context().global.process;
+        node.log(JSON.stringify(gCtx));
         if (this.server) {
             var clusterZookeeper = this.server.zkquorum,
                 topics = String(config.topics), // not used right now!
