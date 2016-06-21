@@ -9,7 +9,7 @@ module.exports = function(RED) {
         
         var gCtx = this.context().global;
         var kafkaConfig = gCtx.get('kafka');
-        node.log(JSON.stringify(global.get('kafka')));
+        node.log(JSON.stringify(global.kafka));
         if (this.server) {
             var clusterZookeeper = this.server.zkquorum,
                 topics = String(config.topics), // not used right now!
