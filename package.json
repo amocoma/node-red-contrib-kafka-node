@@ -3,7 +3,7 @@
     "version"      : "0.1.7",
     "description"  : "Node-RED nodes of HighLevel Kafka Producer and Consumer (forked from https://github.com/fwang7/node-red-contrib-kafka-node)",
     "dependencies" : {
-        "kafka-node": "git+https://github.com/amocoma/kafka-node.git"
+        "kafka-node": "git+https://github.com/amocoma/kafka.git"
     },
     "repository" : {
         "type" : "git",

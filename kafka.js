@@ -1,13 +1,7 @@
-/**
- * Created by fwang1 on 3/25/15.
- */
+var Kafka = require('no-kafka');
+
 module.exports = function(RED) {
-    /*
-     *   Kafka Producer
-     *   Parameters:
-     - topics 
-     - zkquorum(example: zkquorum = “[host]:2181")
-     */
+
     function kafkaProducerNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
@@ -15,17 +9,26 @@ module.exports = function(RED) {
         this.server = RED.nodes.getNode(config.server);
         node.log(JSON.stringify(this.server));
         if (this.server) {
-            var kafka = require('kafka-node'),
-                hlProducer = kafka.HighLevelProducer,
-                clusterZookeeper = this.server.zkquorum,
-                topics = String(config.topics),
-                zkOptions = {key:this.server.key, cert:this.server.cert, ca:this.server.ca},
-                client = new kafka.Client(clusterZookeeper, zkOptions);
+            var clusterZookeeper = this.server.zkquorum,
+                topics = String(config.topics), /** not used right now **/
+                sslOptions = {key:this.server.key, cert:this.server.cert, ca:this.server.ca},
+                zkOptions = {connectionString:'kafka+ssl://ec2-52-51-56-194.eu-west-1.compute.amazonaws.com:9096,kafka+ssl://ec2-52-50-127-83.eu-west-1.compute.amazonaws.com:9096', ssl: sslOptions},
+                producer = new Kafka.Producer();
             try {
                 this.on("input", function(msg) {
-                    var payloads = [];
-                    topics.split(',').forEach(function(_topic){payloads.push({topic: _topic.trim(), messages: msg.payload});});
-                    producer.send(payloads, function(err, data){if(err)node.error(err); else node.log("Message Sent: " + data);});
+
+                    return producer.init().then(function(){
+                      return producer.send({
+                          topic: 'test',
+                          partition: 0,
+                          message: {
+                              value: 'Hello!'
+                          }
+                      });
+                    })
+                    .then(function (result) {
+                      node.log(' xxxxxx result : ' + JSON.stringify(result));
+                    });
                 });
             }catch(e) {
                 node.error(e);
@@ -45,6 +48,7 @@ module.exports = function(RED) {
         this.server = RED.nodes.getNode(config.server);
 
         if (this.server) {
+            /**
             var hlConsumer = kafka.HighLevelConsumer,
                 topics = String(config.topics),
                 clusterZookeeper = this.server.zkquorum,
@@ -78,7 +82,7 @@ module.exports = function(RED) {
             }else{
                 console.error('No topics configures');
             }
-
+            **/
         }else{
             node.log('No config node configured');
             // 
