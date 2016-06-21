@@ -5,6 +5,7 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,config);
         var node = this;
         // Retrieve the config node
+        /**
         this.server = RED.nodes.getNode(config.server);
         node.log(JSON.stringify(this.server));
         if (this.server) {
@@ -36,6 +37,7 @@ module.exports = function(RED) {
         }else{
             node.log('No config node configured');
         }
+        **/
     }
 
     RED.nodes.registerType("kafka-prod",kafkaProducerNode);
