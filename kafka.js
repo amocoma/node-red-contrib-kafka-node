@@ -7,12 +7,13 @@ module.exports = function(RED) {
         // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
         
-        var gCtx = node.context().global;
-        node.log(JSON.stringify(gCtx.get('process').env));
+        var env = node.context().global.get('process').env;
+        node.log(JSON.stringify(env));
         if (this.server) {
             var clusterZookeeper = this.server.zkquorum,
                 topics = String(config.topics), // not used right now!
-                sslOptions = {key:kafkaConfig.clientCertKey, cert:kafkaConfig.clientCert, ca:kafkaConfig.trustedCert},
+                KAFKA_TRUSTED_CERT
+                sslOptions = {key:env.KAFKA_CLIENT_CERT_KEY, cert:env.KAFKA_CLIENT_CERT, ca:env.KAFKA_TRUSTED_CERT},
                 zkOptions = {connectionString:'kafka+ssl://ec2-52-51-56-194.eu-west-1.compute.amazonaws.com:9096,kafka+ssl://ec2-52-50-127-83.eu-west-1.compute.amazonaws.com:9096', ssl: sslOptions},
                 producer = new Kafka.Producer(zkOptions);
             try {
