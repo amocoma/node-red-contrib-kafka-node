@@ -1,4 +1,4 @@
-var Kafka = require('no-kafka');
+// var Kafka = require('no-kafka');
 module.exports = function(RED) {
 
     function kafkaProducerNode(config) {
