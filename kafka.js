@@ -12,7 +12,7 @@ module.exports = function(RED) {
                 topics = String(config.topics), // not used right now!
                 sslOptions = {key:this.server.key, cert:this.server.cert, ca:this.server.ca},
                 zkOptions = {connectionString:'kafka+ssl://ec2-52-51-56-194.eu-west-1.compute.amazonaws.com:9096,kafka+ssl://ec2-52-50-127-83.eu-west-1.compute.amazonaws.com:9096', ssl: sslOptions},
-                producer = new Kafka.Producer();
+                producer = new Kafka.Producer(zkOptions);
             try {
                 this.on("input", function(msg) {
 
@@ -32,7 +32,6 @@ module.exports = function(RED) {
             }catch(e) {
                 node.error(e);
             }
-            var producer = new producer(zkOptions);
         }else{
             node.log('No config node configured');
         }
