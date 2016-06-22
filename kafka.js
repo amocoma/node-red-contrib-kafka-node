@@ -11,7 +11,7 @@ module.exports = function(RED) {
         if (this.server) {
             var clusterZookeeper = this.server.zkquorum,
                 topics = String(config.topics), // not used right now!
-                sslOptions = {key:env.KAFKA_CLIENT_CERT_KEY, cert:env.KAFKA_CLIENT_CERT, ca:env.KAFKA_TRUSTED_CERT},
+                sslOptions = {key:env.KAFKA_CLIENT_CERT_KEY, cert:env.KAFKA_CLIENT_CERT, ca:env.KAFKA_TRUSTED_CERT, checkServerIdentity: function (host, cert) {return undefined;}},
                 zkOptions = {connectionString:'kafka+ssl://ec2-52-51-56-194.eu-west-1.compute.amazonaws.com:9096,kafka+ssl://ec2-52-50-127-83.eu-west-1.compute.amazonaws.com:9096', ssl: sslOptions},
                 producer = new Kafka.Producer(zkOptions);
             try {
