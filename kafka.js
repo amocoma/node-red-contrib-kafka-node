@@ -8,7 +8,6 @@ module.exports = function(RED) {
         this.server = RED.nodes.getNode(config.server);
         
         var env = node.context().global.get('process').env;
-        node.log(JSON.stringify(env));
         if (this.server) {
             var clusterZookeeper = this.server.zkquorum,
                 topics = String(config.topics), // not used right now!
@@ -18,7 +17,6 @@ module.exports = function(RED) {
                 producer = new Kafka.Producer(zkOptions);
             try {
                 this.on("input", function(msg) {
-                    console.log('XXXXX : ' + 'input');
                     return producer.init().then(function(){
                       console.log('XXXXX : ' + 'PRODUCER INITIALIZED');
                       return producer.send({
@@ -35,6 +33,8 @@ module.exports = function(RED) {
                     });
                 });
             }catch(e) {
+               console.log('XXXXX : ' + 'ERROR');
+
                 node.error(e);
             }
         }else{
