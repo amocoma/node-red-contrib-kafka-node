@@ -40,7 +40,6 @@ module.exports = function(RED) {
 
     function kafkaSubscriberNode(config) {
         RED.nodes.createNode(this,config);
-        /**
         var node = this,
             Promise = require('bluebird'),
             Kafka = require('no-kafka'),
