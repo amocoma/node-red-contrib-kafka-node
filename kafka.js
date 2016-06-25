@@ -6,13 +6,12 @@ module.exports = function(RED) {
         var Kafka = require('no-kafka');
         // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
-        
         var env = node.context().global.get('process').env;
         if (this.server) {
             var clusterZookeeper = this.server.zkquorum,
                 topics = String(config.topics), // not used right now!
                 sslOptions = {key:env.KAFKA_CLIENT_CERT_KEY, cert:env.KAFKA_CLIENT_CERT, ca:env.KAFKA_TRUSTED_CERT, checkServerIdentity: function (host, cert) {return undefined;}},
-                zkOptions = {connectionString:'kafka+ssl://ec2-52-51-56-194.eu-west-1.compute.amazonaws.com:9096,kafka+ssl://ec2-52-50-127-83.eu-west-1.compute.amazonaws.com:9096', ssl: sslOptions},
+                zkOptions = {connectionString:env.KAFKA_URL, ssl: sslOptions},
                 producer = new Kafka.Producer(zkOptions);
             try {
                 this.on("input", function(msg) {
@@ -25,15 +24,11 @@ module.exports = function(RED) {
                               value: 'Hello!'
                           }
                       });
-                    })
-                    .then(function (result) {
-                        console.log('XXXXX : ' + 'NO INIT OF PRODUCER');
+                    }).then(function (result) {
                       node.log(' xxxxxx result : ' + JSON.stringify(result));
                     });
                 });
             }catch(e) {
-               console.log('XXXXX : ' + 'ERROR');
-
                 node.error(e);
             }
         }else{
@@ -45,11 +40,38 @@ module.exports = function(RED) {
 
     function kafkaSubscriberNode(config) {
         RED.nodes.createNode(this,config);
+        var Promise = require('bluebird');
         var node = this;
+        var Kafka = require('no-kafka');
+
         // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
-
+        var env = node.context().global.get('process').env;
         if (this.server) {
+            var clusterZookeeper = this.server.zkquorum,
+                topics = String(config.topics), // not used right now!
+                sslOptions = {key:env.KAFKA_CLIENT_CERT_KEY, cert:env.KAFKA_CLIENT_CERT, ca:env.KAFKA_TRUSTED_CERT, checkServerIdentity: function (host, cert) {return undefined;}},
+                zkOptions = {connectionString:env.KAFKA_URL, ssl: sslOptions},
+                consumer = new Kafka.GroupConsumer(zkOptions);
+            var dataHandler = function (messageSet, topic, partition) {
+                return Promise.each(messageSet, function (m){
+                            console.log(topic, partition, m.offset, m.message);
+                            var msg = ;
+                            node.send({payload: m.message});
+                            // commit offset
+                            return consumer.commitOffset({topic: topic, partition: partition, offset: m.offset, metadata: 'optional'});
+                        });
+            };
+
+            var strategies = [{
+                strategy: 'TestStrategy',
+                subscriptions: ['test'],
+                handler: dataHandler
+            }];
+
+            consumer.init(strategies); // all done, now wait for messages in dataHandler
+
+
             /**
             var hlConsumer = kafka.HighLevelConsumer,
                 topics = String(config.topics),
