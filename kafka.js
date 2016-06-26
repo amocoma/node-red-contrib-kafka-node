@@ -46,16 +46,14 @@ module.exports = function(RED) {
             env = node.context().global.get('process').env;
         // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
-        /**
         if (this.server) {
-            var clusterZookeeper = this.    server.zkquorum,
+            var clusterZookeeper = this.server.zkquorum,
                 sslOptions = {key:env.KAFKA_CLIENT_CERT_KEY, cert:env.KAFKA_CLIENT_CERT, ca:env.KAFKA_TRUSTED_CERT, checkServerIdentity: function (host, cert) {return undefined;}},
                 zkOptions = {connectionString: env.KAFKA_URL, ssl: sslOptions},
                 consumer = new Kafka.GroupConsumer(zkOptions);
             var dataHandler = function (messageSet, topic, partition) {
                 return Promise.each(messageSet, function (m){
                             console.log(topic, partition, m.offset, m.message);
-                            var msg = ;
                             node.send({payload: m.message});
                             // commit offset
                             return consumer.commitOffset({topic: topic, partition: partition, offset: m.offset, metadata: 'optional'});
@@ -74,7 +72,6 @@ module.exports = function(RED) {
             node.log('No config node configured');
             // 
         }
-        **/
     }
 
 
