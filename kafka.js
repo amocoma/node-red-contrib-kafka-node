@@ -47,6 +47,7 @@ module.exports = function(RED) {
         // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
         if (this.server) {
+            node.log('INIT CONSUMER');
             var clusterZookeeper = this.server.zkquorum,
                 sslOptions = {key:env.KAFKA_CLIENT_CERT_KEY, cert:env.KAFKA_CLIENT_CERT, ca:env.KAFKA_TRUSTED_CERT, checkServerIdentity: function (host, cert) {return undefined;}},
                 zkOptions = {connectionString: env.KAFKA_URL, ssl: sslOptions},
