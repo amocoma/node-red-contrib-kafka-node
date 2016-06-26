@@ -46,7 +46,7 @@ module.exports = function(RED) {
             env = node.context().global.get('process').env;
         // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
-
+        /**
         if (this.server) {
             var clusterZookeeper = this.    server.zkquorum,
                 sslOptions = {key:env.KAFKA_CLIENT_CERT_KEY, cert:env.KAFKA_CLIENT_CERT, ca:env.KAFKA_TRUSTED_CERT, checkServerIdentity: function (host, cert) {return undefined;}},
@@ -74,6 +74,7 @@ module.exports = function(RED) {
             node.log('No config node configured');
             // 
         }
+        **/
     }
 
 
